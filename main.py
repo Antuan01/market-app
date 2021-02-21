@@ -1,12 +1,13 @@
 from flask import Flask
 from flask_restful import Resource, Api
 from dotenv import load_dotenv
+from flask_migrate import Migrate
 import os
 from flask_sqlalchemy import SQLAlchemy
-from db import db
-from resources.product import ProductResource
 
-from models.product import Product
+from db import db
+
+from resources.product import Product, ProductList
 
 load_dotenv()
 
@@ -16,17 +17,14 @@ app.config["SQLALCHEMY_ECHO"] = True
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///example.sqlite"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
-#db = SQLAlchemy(app)
 db.init_app(app)
 db.app = app
 api = Api(app)
 
-#import config
-api.add_resource(ProductResource, '/product')
+Migrate(app, db)
 
-@app.route('/')
-def hello_world():
-    return 'Hello, World!'
+api.add_resource(Product, '/product/<int:id>')
+api.add_resource(ProductList, "/product")
 
 if __name__ == '__main__':
     app.run(

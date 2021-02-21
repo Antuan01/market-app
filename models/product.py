@@ -11,3 +11,12 @@ class Product(db.Model):
 
     def __repr__(self):
         return '<Producto %r>' % self.name
+
+    def create(self):
+        db.session.add(self)
+        db.session.commit()
+
+#show
+#delete
+#update
+#list
