@@ -7,7 +7,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 from db import db
 
-from resources.product import Product, ProductList
+from resources.product import ProductResource, ProductList
 
 load_dotenv()
 
@@ -19,11 +19,12 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 db.init_app(app)
 db.app = app
+#ma 
 api = Api(app)
 
 Migrate(app, db)
 
-api.add_resource(Product, '/product/<int:id>')
+api.add_resource(ProductResource, '/product/<int:id>')
 api.add_resource(ProductList, "/product")
 
 if __name__ == '__main__':

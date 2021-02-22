@@ -9,6 +9,14 @@ class Product(db.Model):
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
 
+    def json(self):
+        return {
+                "id": self.id,
+                "name": self.name,
+                "price": self.price,
+                "quantity": self.quantity,
+                }
+
     def __repr__(self):
         return '<Producto %r>' % self.name
 

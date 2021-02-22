@@ -1,0 +1,21 @@
+version: '3.1'
+
+services:
+
+  db:
+    image: mariadb:10.5.8
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: nautna
+      MYSQL_PASSWORD: nautna
+      MYSQL_ROOT_USER: admin
+      MYSQL_USER: antuan
+      MYSQL_DATABASE: pydb
+    ports:
+      - 3306:3306
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
