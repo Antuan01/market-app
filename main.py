@@ -4,8 +4,7 @@ from dotenv import load_dotenv
 from flask_migrate import Migrate
 import os
 from flask_sqlalchemy import SQLAlchemy
-
-from db import db
+from db import db, ma
 
 from resources.product import ProductResource, ProductList
 
@@ -19,7 +18,7 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 db.init_app(app)
 db.app = app
-#ma 
+ma.app = app
 api = Api(app)
 
 Migrate(app, db)

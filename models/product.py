@@ -1,4 +1,4 @@
-from db import db
+from db import db, ma
 from datetime import datetime
 
 class Product(db.Model):
@@ -24,6 +24,9 @@ class Product(db.Model):
         db.session.add(self)
         db.session.commit()
 
+class ProductSchema(ma.Schema):
+    class Meta:
+        fields = ("id", "name", "price", "quantity")
 #show
 #delete
 #update
