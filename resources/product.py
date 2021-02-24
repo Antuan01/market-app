@@ -1,5 +1,6 @@
 from flask_restful import Resource, reqparse
-from models.product import Product, ProductSchema
+from models.products import Products, ProductsSchema
+from models.order_details import OrderDetails
 from flask import request
 
 class ProductResource(Resource):
@@ -16,18 +17,15 @@ class ProductResource(Resource):
 class ProductList(Resource):
 
     def get(self):
-        List = [ product.json() for product in Product.query.all()]
-        return ProductSchema(many=True).dump(Product.query.all())
-        #return { "products": List }
+        return ProductsSchema(many=True).dump(Product.query.all())
 
     def post(self):
-
-        #Product(request.form).create()
-        data = Product(name=request.form["name"],
+        data = Products(name=request.form["name"],
                 price=request.form["price"],
                 quantity=request.form["quantity"]
                 )
         data.create()
+
         return { "action": "aqui creo",
                 "name": request.form["name"],
                 "price": request.form["price"],
