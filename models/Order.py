@@ -1,7 +1,8 @@
 from db import db, ma
 from datetime import datetime
 
-class Orders(db.Model):
+class Order(db.Model):
+    __tablename__ = "orders"
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120), nullable=False)
     price = db.Column(db.String(20), nullable=False)
@@ -13,6 +14,6 @@ class Orders(db.Model):
         db.session.add(self)
         db.session.commit()
 
-class OrdersSchema(ma.Schema):
+class OrderSchema(ma.Schema):
     class Meta:
         fields = ("id", "name", "price", "quantity")

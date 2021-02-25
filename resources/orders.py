@@ -5,7 +5,7 @@ from models.Address import Address
 from models.Person import Person
 from flask import request
 
-class ProductResource(Resource):
+class OrderResource(Resource):
 
     def get(self, id):
         return { id: id }
@@ -16,7 +16,7 @@ class ProductResource(Resource):
     def delete(self, id):
         return { "action": "delete {}".format(id) }
 
-class ProductList(Resource):
+class OrderList(Resource):
 
     def get(self):
         app.logger.debug("debug")
