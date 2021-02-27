@@ -2,11 +2,12 @@ from db import db, ma
 from datetime import datetime
 
 class OrderDetail(db.Model):
+    __tablename__ = "order_details"
     id = db.Column(db.Integer, primary_key=True)
     #order_id = db.relationship('Orders', backref='order_details', lazy=True)
     #product_id = db.relationship('Products', backref='order_details', lazy=True)
-    product_id = db.Column(db.Integer, db.ForeignKey('product.id'), nullable=False)
-    #order_id = db.Column(db.Integer, db.ForeignKey('product.id'), nullable=False)
+    product_id = db.Column(db.Integer, db.ForeignKey('products.id'), nullable=False)
+    order_id = db.Column(db.Integer, db.ForeignKey('products.id'), nullable=False)
     unit_price = db.Column(db.Integer, nullable=False, default=0)
     quantity = db.Column(db.Integer, nullable=False, default=1)
 

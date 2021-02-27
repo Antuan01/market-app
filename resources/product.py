@@ -19,9 +19,6 @@ class ProductResource(Resource):
 class ProductList(Resource):
 
     def get(self):
-        app.logger.debug("debug")
-        app.logger.warning("warning")
-        app.logger.error("error")
         return ProductSchema(many=True).dump(Product.query.all())
 
     def post(self):

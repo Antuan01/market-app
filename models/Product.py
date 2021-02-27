@@ -9,7 +9,7 @@ class Product(db.Model):
     quantity = db.Column(db.Integer, nullable=False, default=0)
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-    orders = db.relationship('OrderDetail', backref='product', lazy=True)
+    orders = db.relationship('OrderDetail', backref='products', lazy=True)
 
     def create(self):
         db.session.add(self)

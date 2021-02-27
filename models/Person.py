@@ -5,7 +5,7 @@ class Person(db.Model):
     __tablename__ = "persons"
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120), nullable=False)
-    location = db.relationship("Address", backref="person", lazy="select", uselist=False)
+    location = db.relationship("Address", backref="persons", lazy="select", uselist=False)
 
     def create(self):
         db.session.add(self)
