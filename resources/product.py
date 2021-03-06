@@ -1,8 +1,5 @@
 from flask_restful import Resource, reqparse
 from models.Product import Product, ProductSchema
-from models.OrderDetail import OrderDetail
-from models.Address import Address
-from models.Person import Person
 from flask import request
 
 class ProductResource(Resource):
