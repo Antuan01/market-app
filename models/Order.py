@@ -11,7 +11,7 @@ class Order(db.Model):
     expiration_date = db.Column(db.DateTime, nullable=True)
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-    #user_id 
+    user_id = db.relationship("User", backref="orders", lazy=True)
     products = db.relationship('ProductOrder', backref='orders', lazy=True)
 
     def create(self):
