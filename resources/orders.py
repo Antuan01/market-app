@@ -1,8 +1,6 @@
 from flask_restful import Resource, reqparse
-from models.Product import Product, ProductSchema
-from models.OrderDetail import OrderDetail
-from models.Address import Address
-from models.Person import Person
+from models.Order import Order, OrderSchema
+from models.ProductOrder import ProductOrder
 from flask import request
 
 class OrderResource(Resource):
@@ -19,20 +17,15 @@ class OrderResource(Resource):
 class OrderList(Resource):
 
     def get(self):
-        app.logger.debug("debug")
-        app.logger.warning("warning")
-        app.logger.error("error")
-        return ProductSchema(many=True).dump(Product.query.all())
+        return OrderSchema(many=True).dump(Order.query.all())
 
     def post(self):
-        data = Product(name=request.form["name"],
-                price=request.form["price"],
-                quantity=request.form["quantity"]
+        data = Order(total_price=request.form["total_price"],
+                dollar_rate=request.form["dollar_rate"],
+                status=request.form["status"],
+                type=request.form["type"]
                 )
         data.create()
 
-        return { "action": "aqui creo",
-                "name": request.form["name"],
-                "price": request.form["price"],
-                "quantity": request.form["quantity"]               
-                }
+        return OrderSchema().dump(data)
+

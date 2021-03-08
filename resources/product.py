@@ -21,12 +21,12 @@ class ProductList(Resource):
     def post(self):
         data = Product(name=request.form["name"],
                 price=request.form["price"],
-                quantity=request.form["quantity"]
+               stock=request.form["stock"]
                 )
         data.create()
 
         return { "action": "aqui creo",
                 "name": request.form["name"],
                 "price": request.form["price"],
-                "quantity": request.form["quantity"]               
+                "stock": request.form["stock"]               
                 }

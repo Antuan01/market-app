@@ -4,12 +4,15 @@ from datetime import datetime
 class Order(db.Model):
     __tablename__ = "orders"
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(120), nullable=False)
-    price = db.Column(db.String(20), nullable=False)
-    quantity = db.Column(db.Integer, nullable=False, default=0)
+    total_price = db.Column(db.String(20), nullable=False)
+    dollar_rate = db.Column(db.String(20), nullable=False)
+    status = db.Column(db.SmallInteger, nullable=False, default=0)
+    type = db.Column(db.SmallInteger, nullable=False, default=0)
+    expiration_date = db.Column(db.DateTime, nullable=True)
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-    products = db.relationship('OrderDetails', backref='orders', lazy=True)
+    #user_id 
+    products = db.relationship('ProductOrder', backref='orders', lazy=True)
 
     def create(self):
         db.session.add(self)
@@ -17,4 +20,8 @@ class Order(db.Model):
 
 class OrderSchema(ma.Schema):
     class Meta:
-        fields = ("id", "name", "price", "quantity")
+        fields = ("id",
+                "total_price", "dollar_rate", "status",
+                "type", "expiration_date", "created_at", 
+                "updated_at",
+                )

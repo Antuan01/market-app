@@ -7,6 +7,7 @@ from flask_sqlalchemy import SQLAlchemy
 from db import db, ma
 
 from resources.product import ProductResource, ProductList
+from resources.orders import OrderResource, OrderList
 
 load_dotenv()
 
@@ -25,6 +26,10 @@ Migrate(app, db)
 
 api.add_resource(ProductResource, '/product/<int:id>')
 api.add_resource(ProductList, "/product")
+
+api.add_resource(OrderResource, "/order/<int:id>")
+api.add_resource(OrderList, "/order")
+
 
 if __name__ == '__main__':
     app.run(
