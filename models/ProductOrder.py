@@ -15,6 +15,6 @@ class ProductOrder(db.Model):
         db.session.add(self)
         db.session.commit()
 
-#class ProductsSchema(ma.Schema):
-#    class Meta:
-#        fields = ("unit_price", "quantity")
+class ProductsSchema(ma.Schema):
+    class Meta:
+        fields = ("price", "quantity")
