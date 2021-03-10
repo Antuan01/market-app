@@ -1,5 +1,7 @@
 from flask_restful import Resource, reqparse
 from models.Product import Product, ProductSchema
+from models.User import User, UserSchema
+
 from flask import request
 
 class ProductResource(Resource):
@@ -25,8 +27,4 @@ class ProductList(Resource):
                 )
         data.create()
 
-        return { "action": "aqui creo",
-                "name": request.form["name"],
-                "price": request.form["price"],
-                "stock": request.form["stock"]               
-                }
+        return ProductSchema().dump(data)
