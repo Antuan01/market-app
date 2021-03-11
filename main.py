@@ -25,10 +25,10 @@ api = Api(app)
 Migrate(app, db)
 
 api.add_resource(ProductResource, '/product/<int:id>')
-api.add_resource(ProductList, "/product")
+api.add_resource(ProductList, "/products")
 
 api.add_resource(OrderResource, "/order/<int:id>")
-api.add_resource(OrderList, "/order")
+api.add_resource(OrderList, "/orders")
 
 
 if __name__ == '__main__':
