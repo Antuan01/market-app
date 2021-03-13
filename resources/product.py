@@ -2,7 +2,7 @@ import os
 from flask_restful import Resource, reqparse
 from models.Product import Product, ProductSchema
 from models.User import User, UserSchema
-from flask import request
+from flask import request, url_for, send_from_directory
 from models.Image import Image, ImageSchema
 from werkzeug.utils import secure_filename
 
@@ -56,6 +56,7 @@ class ProductList(Resource):
         if file and self.allowed_file(file.filename):
             filename = secure_filename(file.filename)
             file.save(os.path.join('uploads', filename))
-            return { "message": "todo bien" }
+            #return send_from_directory("uploads", filename)
+            return { "message": url_for('uploaded_file', filename=filename) }
             #return redirect(url_for('uploaded_file',
             #                        filename=filename))        

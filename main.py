@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, send_from_directory
 from flask_restful import Resource, Api
 from dotenv import load_dotenv
 from flask_migrate import Migrate
@@ -13,9 +13,8 @@ load_dotenv()
 
 app = Flask(__name__)
 
-UPLOAD_FOLDER = 'files'
-
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
+app.config['UPLOAD_FOLDER'] = "uploads"
 app.config["SQLALCHEMY_ECHO"] = True
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///example.sqlite"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
@@ -33,6 +32,10 @@ api.add_resource(ProductList, "/products")
 api.add_resource(OrderResource, "/order/<int:id>")
 api.add_resource(OrderList, "/orders")
 
+@app.route('/uploads/<filename>')
+def uploaded_file(filename):
+    return send_from_directory(app.config['UPLOAD_FOLDER'],
+                               filename)
 
 if __name__ == '__main__':
     app.run(
