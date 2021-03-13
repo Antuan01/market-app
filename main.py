@@ -13,6 +13,9 @@ load_dotenv()
 
 app = Flask(__name__)
 
+UPLOAD_FOLDER = 'files'
+
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config["SQLALCHEMY_ECHO"] = True
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///example.sqlite"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False

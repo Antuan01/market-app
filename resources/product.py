@@ -1,7 +1,10 @@
+import os
 from flask_restful import Resource, reqparse
 from models.Product import Product, ProductSchema
 from models.User import User, UserSchema
 from flask import request
+from models.Image import Image, ImageSchema
+from werkzeug.utils import secure_filename
 
 class ProductResource(Resource):
 
@@ -23,13 +26,36 @@ class ProductResource(Resource):
 
 class ProductList(Resource):
 
+    def allowed_file(self, filename):
+        ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
+        return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+
     def get(self):
         return ProductSchema(many=True).dump(Product.query.all())
 
     def post(self):
-        data = Product(name=request.form["name"],
-                price=request.form["price"],
-               stock=request.form["stock"]
-                )
-        data.create()
-        return ProductSchema().dump(data), 201
+        #data = Product(name=request.form["name"],
+        #        price=request.form["price"],
+        #       stock=request.form["stock"]
+        #        )
+        #data.create()
+        #return ProductSchema().dump(data), 201
+        if 'file' not in request.files:
+            flash('No file part')
+            return redirect(request.url)
+
+        file = request.files['file']
+        # if user does not select file, browser also
+        # submit an empty part without filename
+        if file.filename == '':
+            flash('No selected file')
+            return redirect(request.url)
+
+        if file and self.allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            file.save(os.path.join('uploads', filename))
+            return { "message": "todo bien" }
+            #return redirect(url_for('uploaded_file',
+            #                        filename=filename))        
