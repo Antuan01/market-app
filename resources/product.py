@@ -27,7 +27,7 @@ class ProductResource(Resource):
 class ProductList(Resource):
 
     def allowed_file(self, filename):
-        ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
+        ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
         return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
@@ -36,15 +36,15 @@ class ProductList(Resource):
         return ProductSchema(many=True).dump(Product.query.all())
 
     def post(self):
-        #data = Product(name=request.form["name"],
-        #        price=request.form["price"],
-        #       stock=request.form["stock"]
-        #        )
-        #data.create()
+        data = Product(name=request.form["name"],
+                price=request.form["price"],
+               stock=request.form["stock"]
+                )
+
+        data.create()
         #return ProductSchema().dump(data), 201
         if 'file' not in request.files:
-            flash('No file part')
-            return redirect(request.url)
+            return { "message": "no image" }, 400
 
         file = request.files['file']
         # if user does not select file, browser also
@@ -55,8 +55,18 @@ class ProductList(Resource):
 
         if file and self.allowed_file(file.filename):
             filename = secure_filename(file.filename)
+            fileurl = url_for('uploaded_file', filename=filename)
             file.save(os.path.join('uploads', filename))
             #return send_from_directory("uploads", filename)
-            return { "message": url_for('uploaded_file', filename=filename) }
+        
+        img = Image(url=fileurl,
+                imageable_id=data.id,
+                imageable_type="product"
+                )
+
+        img.create()
+
+        return { "message": fileurl }
             #return redirect(url_for('uploaded_file',
             #                        filename=filename))        
+
