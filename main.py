@@ -5,19 +5,16 @@ from flask_migrate import Migrate
 import os
 from flask_sqlalchemy import SQLAlchemy
 from db import db, ma
+from config import Config
 
-from resources.product import ProductResource, ProductList
-from resources.orders import OrderResource, OrderList
+from routes import set_routes
 
 load_dotenv()
 
 app = Flask(__name__)
 
-app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
-app.config['UPLOAD_FOLDER'] = "uploads"
-app.config["SQLALCHEMY_ECHO"] = True
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///example.sqlite"
-app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+app.config.from_object(Config())
+#app.config.from_envvar()
 
 db.init_app(app)
 db.app = app
@@ -26,13 +23,9 @@ api = Api(app)
 
 Migrate(app, db)
 
-api.add_resource(ProductResource, '/product/<int:id>')
-api.add_resource(ProductList, "/products")
+set_routes(api)
 
-api.add_resource(OrderResource, "/order/<int:id>")
-api.add_resource(OrderList, "/orders")
-
-@app.route('/uploads/<filename>')
+@app.route('/images/<filename>')
 def uploaded_file(filename):
     return send_from_directory(app.config['UPLOAD_FOLDER'],
                                filename)
